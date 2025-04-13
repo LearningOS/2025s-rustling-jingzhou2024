@@ -34,9 +34,23 @@
 // Execute `rustlings hint tests7` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+use std::time::{SystemTime, UNIX_EPOCH};
 
-fn main() {}
+fn main() {
+   // In tests7, we should set up an environment variable
+    // called `TEST_FOO`. Print in the standard output to let
+    // Cargo do it.
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("获取系统时间失败")
+        .as_secs();
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
+
+    // In tests8, we should enable "pass" feature to make the
+    // testcase return early. Fill in the command to tell
+    // Cargo about that.
+    println!("cargo:rustc-cfg=feature=\"pass\""); 
+}
 
 #[cfg(test)]
 mod tests {

@@ -2,7 +2,7 @@
 //!
 //! You should modify this file to make both exercises pass.
 
-fn main() {
+/* fn main() {
     // In tests7, we should set up an environment variable
     // called `TEST_FOO`. Print in the standard output to let
     // Cargo do it.
@@ -21,4 +21,19 @@ fn main() {
     // Cargo about that.
     let your_command = "Your command here, please checkout exercises/tests/build.rs";
     println!("cargo:{}", your_command);
+}
+ */
+/* use std::time::{SystemTime, UNIX_EPOCH};
+
+fn main() {
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("获取系统时间失败")
+        .as_secs();
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
+} */
+// build.rs
+fn main() {
+    // 告诉 Cargo 在编译时启用 feature = "pass" 的条件编译标志
+    println!("cargo:rustc-cfg=feature=\"pass\"");
 }

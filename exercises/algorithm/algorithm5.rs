@@ -3,38 +3,55 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
+
 use std::collections::VecDeque;
 
-// Define a graph
+// 定义图结构
 struct Graph {
-    adj: Vec<Vec<usize>>, 
+    adj: Vec<Vec<usize>>, // 邻接表，表示图的边
 }
 
 impl Graph {
-    // Create a new graph with n vertices
+    // 创建一个有n个顶点的新图
     fn new(n: usize) -> Self {
         Graph {
-            adj: vec![vec![]; n],
+            adj: vec![vec![]; n], // 初始化n个空的邻接表
         }
     }
 
-    // Add an edge to the graph
+    // 添加边到图中（无向图）
     fn add_edge(&mut self, src: usize, dest: usize) {
-        self.adj[src].push(dest); 
-        self.adj[dest].push(src); 
+        self.adj[src].push(dest); // 从src到dest的边
+        self.adj[dest].push(src); // 从dest到src的边（无向图）
     }
 
-    // Perform a breadth-first search on the graph, return the order of visited nodes
+    // 执行广度优先搜索，返回访问节点的顺序
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
-        
-		//TODO
+        let mut visit_order = vec![]; // 存储访问节点的顺序
+        let mut visited = vec![false; self.adj.len()]; // 标记节点是否被访问
+        let mut queue = VecDeque::new(); // BFS使用的队列
 
-        let mut visit_order = vec![];
-        visit_order
+        // 初始化：将起始节点标记为已访问并加入队列
+        visited[start] = true;
+        queue.push_back(start);
+        visit_order.push(start);
+
+        // 当队列不为空时，继续处理
+        while let Some(current) = queue.pop_front() {
+            // 遍历当前节点的所有邻居
+            for &neighbor in &self.adj[current] {
+                // 如果邻居未被访问
+                if !visited[neighbor] {
+                    visited[neighbor] = true; // 标记为已访问
+                    queue.push_back(neighbor); // 将邻居加入队列
+                    visit_order.push(neighbor); // 记录访问顺序
+                }
+            }
+        }
+
+        visit_order // 返回访问顺序
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -84,4 +101,3 @@ mod tests {
         assert_eq!(visited_order, vec![0]);
     }
 }
-

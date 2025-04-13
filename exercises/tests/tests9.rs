@@ -27,15 +27,19 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
 
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
+    #[link_name = "my_demo_function"] // 添加属性：将 my_demo_function_alias 链接到 my_demo_function
     fn my_demo_function_alias(a: u32) -> u32;
 }
 
+
 mod Foo {
+    #[no_mangle] // 添加属性：禁止名称修饰
+    extern "Rust" // 添加属性：导出为 Rust ABI 的外部函数
     // No `extern` equals `extern "Rust"`.
+    //
     fn my_demo_function(a: u32) -> u32 {
         a
     }
