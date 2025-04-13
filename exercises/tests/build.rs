@@ -23,7 +23,7 @@
     println!("cargo:{}", your_command);
 }
  */
-/* use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 fn main() {
     let timestamp = SystemTime::now()
@@ -31,9 +31,6 @@ fn main() {
         .expect("获取系统时间失败")
         .as_secs();
     println!("cargo:rustc-env=TEST_FOO={}", timestamp);
-} */
-// build.rs
-fn main() {
-    // 告诉 Cargo 在编译时启用 feature = "pass" 的条件编译标志
     println!("cargo:rustc-cfg=feature=\"pass\"");
+    // 告诉 Cargo 在编译时启用 feature = "pass" 的条件编译标志
 }
