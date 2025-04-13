@@ -8,10 +8,12 @@
 // Execute `rustlings hint traits3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
+// 在 Rust 中，trait 可以为方法提供默认实现。
+// 如果某个类型实现了该 trait，但没有提供自己的实现，就会使用默认实现。
 pub trait Licensed {
-    fn licensing_info(&self) -> String;
+    fn licensing_info(&self) -> String {
+        String::from("Some information") 
+    }
 }
 
 struct SomeSoftware {

@@ -18,11 +18,10 @@
 //
 // Execute `rustlings hint box1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 #[derive(PartialEq, Debug)]
 pub enum List {
-    Cons(i32, List),
+    Cons(i32, Box<List>),
     Nil,
 }
 
@@ -35,11 +34,13 @@ fn main() {
 }
 
 pub fn create_empty_list() -> List {
-    todo!()
+    List::Nil
 }
+// 编译器需要在编译时知道每个类型的大小。
+// 然而，对于递归类型（比如一个值包含另一个相同类型的值），直接定义会导致类型大小无法确定。
 
 pub fn create_non_empty_list() -> List {
-    todo!()
+    List::Cons(42, Box::new(List::Nil))
 }
 
 #[cfg(test)]

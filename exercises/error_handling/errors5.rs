@@ -22,14 +22,15 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+// Box<dyn ???> 是一个动态分发的类型，我想要一个实现了某个特定 trait 的任意类型
+// Box<dyn std::error::Error>> 处理所有可能的错误
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);

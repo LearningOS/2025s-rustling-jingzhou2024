@@ -9,7 +9,6 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::num::ParseIntError;
 
@@ -26,12 +25,24 @@ impl ParsePosNonzeroError {
     }
     // TODO: add another error conversion function here.
     // fn from_parseint...
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    // Result 的解包：不能直接将 Result 赋值给值，必须通过 ?、匹配表达式或 unwrap（不推荐）等方式提取内部值。
+
+    // 错误传播：? 运算符是 Rust 中优雅传播错误的方式，特别适合在返回 Result 的函数中。
+    
+    // 当函数返回 Result<T, E> 类型时，? 运算符用于处理可能失败的操作。
+    // 如果 Result 是 Ok(value)，则返回 value（解包成功的值）。
+    // 如果 Result 是 Err(error)，则将 Err(error) 直接返回，终止当前函数的执行
+
+
+    let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
 }
 

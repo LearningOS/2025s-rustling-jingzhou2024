@@ -9,8 +9,6 @@
 // Execute `rustlings hint iterators3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum DivisionError {
     NotDivisible(NotDivisibleError),
@@ -26,23 +24,44 @@ pub struct NotDivisibleError {
 // Calculate `a` divided by `b` if `a` is evenly divisible by `b`.
 // Otherwise, return a suitable error.
 pub fn divide(a: i32, b: i32) -> Result<i32, DivisionError> {
-    todo!();
+    if b == 0 {
+        return Err(DivisionError::DivideByZero);
+    }
+
+    if a % b != 0 {
+        return Err(DivisionError::NotDivisible(NotDivisibleError {
+            dividend: a,
+            divisor: b,
+        }));
+    }
+
+    Ok(a / b)
 }
+// result_with_list 需要所有操作都成功（Ok），否则返回一个错误（Err），因此使用 Result<Vec<i32>, DivisionError>。
 
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: Ok([1, 11, 1426, 3])
-fn result_with_list() -> () {
+fn result_with_list() -> Result<Vec<i32>, DivisionError> {
     let numbers = vec![27, 297, 38502, 81];
+    // map(|n| divide(n, 27)) 对每个 n 调用 divide(n, 27)，将 i32 转换为 Result<i32, DivisionError>
+
     let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    // collect 是 Rust 标准库中 Iterator trait 提供的方法，用于将迭代器的元素收集到一个集合类型
+    // Result 类型实现了 FromIterator trait，专门为 Iterator<Item = Result<T, E>> 提供了收集逻辑。
+
+    division_results.collect::<Result<Vec<i32>, DivisionError>>()
 }
+
+// list_of_results 保留每个操作的 Result 状态，因此使用 Vec<Result<i32, DivisionError>>。
 
 // Complete the function and return a value of the correct type so the test
 // passes.
 // Desired output: [Ok(1), Ok(11), Ok(1426), Ok(3)]
-fn list_of_results() -> () {
+fn list_of_results() -> Vec<Result<i32, DivisionError>> {
     let numbers = vec![27, 297, 38502, 81];
     let division_results = numbers.into_iter().map(|n| divide(n, 27));
+    division_results.collect()
 }
 
 #[cfg(test)]

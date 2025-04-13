@@ -11,7 +11,6 @@
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -35,7 +34,7 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    map.values().filter(|&&v| v == value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -54,7 +53,19 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    todo!();
+    collection
+    .iter()
+    .flat_map(|map| map.values())
+    .filter(|&&v| v == value)
+    .count()
+    
+    // map.values() 的迭代器元素是 &Progress，即 Progress 的引用。
+
+    // 当 filter 的闭包接收这个元素时，Rust 会自动将元素作为引用传递给闭包（因为迭代器通常不会转移所有权）。
+
+    // 因此，闭包的参数实际上是 &&Progress（对 &Progress 的引用）。
+
+
 }
 
 #[cfg(test)]

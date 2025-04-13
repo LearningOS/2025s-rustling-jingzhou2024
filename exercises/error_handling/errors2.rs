@@ -19,15 +19,17 @@
 // Execute `rustlings hint errors2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::num::ParseIntError;
 
 pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let processing_fee = 1;
     let cost_per_item = 5;
-    let qty = item_quantity.parse::<i32>();
+    let qty = match item_quantity.parse::<i32>(){
 
+       Ok(num) => num,
+       Err(e) => return Err(e)
+    };
     Ok(qty * cost_per_item + processing_fee)
 }
 
@@ -43,6 +45,8 @@ mod tests {
     #[test]
     fn item_quantity_is_an_invalid_number() {
         assert_eq!(
+            // unwrap_err() 是 Result<T, E> 类型的一个方法，用于提取 Result 中的 Err 部分。
+            // Ok(value)：调用 unwrap_err() 会导致程序 panic（崩溃），因为没有 Err 可提取。
             total_cost("beep boop").unwrap_err().to_string(),
             "invalid digit found in string"
         );

@@ -12,10 +12,6 @@
 // Make me pass the tests!
 //
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
-// hint.
-
-// I AM NOT DONE
-
 use std::collections::HashMap;
 
 // A structure to store the goal details of a team.
@@ -39,6 +35,41 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        
+        // HashMap 的 entry 方法非常适合这个场景，因为它避免了多次查找键的情况：
+        // 直接检查键是否存在。
+
+        // 如果不存在，插入新值；如果存在，返回现有值的可变引用。
+        // 这比先用 contains_key 检查再用 insert 或 get_mut 更简洁和高效。
+
+
+
+        // 使用 entry 方法检查 team_1_name 是否存在于 HashMap 中：
+
+        // or_insert 是 HashMap 的 Entry API 的一部分，
+        // 用于在键不存在时插入一个默认值，并返回键对应的值的可变引用。
+
+        let team_1 = scores.entry(team_1_name.clone()).or_insert(Team{
+            goals_scored: 0,
+            goals_conceded: 0
+        });
+        // 如果不存在，插入一个新的 Team 实例，
+        // 初始化 goals_scored 和 goals_conceded 为 0。
+
+        // 如果存在，返回现有的 Team 实例的引用。
+
+
+        team_1.goals_scored += team_1_score;
+        team_1.goals_conceded += team_2_score;
+        
+
+        let team_2 = scores.entry(team_2_name.clone()).or_insert(Team{
+            goals_scored: 0,
+            goals_conceded: 0
+        });
+
+        team_2.goals_scored += team_2_score;
+        team_2.goals_conceded += team_1_score;
     }
     scores
 }
